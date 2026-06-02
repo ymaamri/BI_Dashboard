@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Dashboard - Sales Analytics</title>
+    <title>Tableau de Bord - Analyse des Ventes</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.0.0/dist/chartjs-chart-matrix.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,14 +21,12 @@
             color: #1e293b;
         }
         
-        /* Dashboard Container */
         .dashboard-container {
             max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* Header */
         .header {
             margin-bottom: 24px;
         }
@@ -45,7 +43,6 @@
             color: #64748b;
         }
         
-        /* Stats Cards */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -115,7 +112,6 @@
         .trend-up { color: #10b981; }
         .trend-down { color: #ef4444; }
         
-        /* Charts Grid */
         .charts-section {
             margin-bottom: 24px;
         }
@@ -164,7 +160,6 @@
             width: 100%;
         }
         
-        /* Filter Bar */
         .filter-bar {
             background: white;
             border-radius: 12px;
@@ -216,7 +211,6 @@
             background: #2563eb;
         }
         
-        /* Data Table */
         .data-table-section {
             background: white;
             border-radius: 12px;
@@ -263,7 +257,6 @@
             background: #f8fafc;
         }
         
-        /* Loading */
         .loading {
             text-align: center;
             padding: 40px;
@@ -275,7 +268,6 @@
             margin-bottom: 8px;
         }
         
-        /* Heatmap wrapper */
         .heatmap-wrapper {
             overflow-x: auto;
         }
@@ -283,68 +275,62 @@
         #heatmapChart {
             min-width: 600px;
         }
-        
-        hr {
-            margin: 24px 0;
-            border: none;
-            border-top: 1px solid #e2e8f0;
-        }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Header -->
         <div class="header">
-            <h1>Sales Analytics Dashboard</h1>
-            <p>Cube_Ventes_BI | Real-time sales performance analysis</p>
+            <h1>Tableau de Bord - Analyse des Ventes</h1>
+            <p>Cube_Ventes_BI | Analyse des performances commerciales en temps réel</p>
         </div>
         
         <!-- KPI Cards -->
         <div class="stats-container">
             <div class="stat-card">
                 <div class="stat-header">
-                    <span>Total Revenue</span>
+                    <span>Chiffre d'Affaires</span>
                     <i class="fas fa-euro-sign stat-icon"></i>
                 </div>
                 <div class="stat-value">{{ number_format($total_ca, 0, ',', ' ') }} €</div>
-                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +12.3% vs last year</div>
+                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +12,3% vs année précédente</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <span>Units Sold</span>
+                    <span>Quantités Vendues</span>
                     <i class="fas fa-box stat-icon"></i>
                 </div>
                 <div class="stat-value">{{ number_format($total_quantity, 0, ',', ' ') }}</div>
-                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +8.1% vs last year</div>
+                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +8,1% vs année précédente</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <span>Average Order Value</span>
+                    <span>Panier Moyen</span>
                     <i class="fas fa-chart-line stat-icon"></i>
                 </div>
                 <div class="stat-value">{{ number_format($total_ca > 0 ? $total_ca / $total_quantity : 0, 0, ',', ' ') }} €</div>
-                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +3.9% vs last year</div>
+                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +3,9% vs année précédente</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <span>Total Transactions</span>
+                    <span>Transactions</span>
                     <i class="fas fa-receipt stat-icon"></i>
                 </div>
                 <div class="stat-value">{{ number_format($sales_by_year['data'][2]['Line Total'] ?? 0 / 100, 0, ',', ' ') }}</div>
-                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +5.2% vs last year</div>
+                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +5,2% vs année précédente</div>
             </div>
         </div>
         
         <!-- Row 1: Yearly & Top Products -->
         <div class="charts-section">
-            <div class="section-title"><i class="fas fa-chart-simple"></i> Performance Overview</div>
+            <div class="section-title"><i class="fas fa-chart-simple"></i> Vue d'ensemble</div>
             <div class="charts-grid">
                 <div class="chart-card">
-                    <h3><i class="fas fa-chart-bar" style="color:#3b82f6;"></i> Revenue by Year</h3>
+                    <h3><i class="fas fa-chart-bar" style="color:#3b82f6;"></i> Chiffre d'Affaires par Année</h3>
                     <canvas id="yearChart"></canvas>
                 </div>
                 <div class="chart-card">
-                    <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Top 5 Products</h3>
+                    <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Top 5 Produits</h3>
                     <canvas id="topProductsChart"></canvas>
                 </div>
             </div>
@@ -354,11 +340,11 @@
         <div class="charts-section">
             <div class="charts-grid">
                 <div class="chart-card">
-                    <h3><i class="fas fa-chart-pie" style="color:#10b981;"></i> Sales by Category</h3>
+                    <h3><i class="fas fa-chart-pie" style="color:#10b981;"></i> Ventes par Catégorie</h3>
                     <canvas id="categoryChart"></canvas>
                 </div>
                 <div class="chart-card">
-                    <h3><i class="fas fa-user-tie" style="color:#8b5cf6;"></i> Sales by Employee</h3>
+                    <h3><i class="fas fa-user-tie" style="color:#8b5cf6;"></i> Ventes par Vendeur</h3>
                     <canvas id="employeeChart"></canvas>
                 </div>
             </div>
@@ -368,7 +354,7 @@
         <div class="charts-section">
             <div class="charts-grid">
                 <div class="chart-card">
-                    <h3><i class="fas fa-chart-line" style="color:#06b6d4;"></i> Monthly Revenue Trend - <span id="evolutionYear">{{ $current_year }}</span></h3>
+                    <h3><i class="fas fa-chart-line" style="color:#06b6d4;"></i> Évolution Mensuelle - <span id="evolutionYear">{{ $current_year }}</span></h3>
                     <canvas id="monthlyEvolutionChart"></canvas>
                     <div style="margin-top: 16px; display: flex; justify-content: center; gap: 8px;">
                         <select id="evolutionYearSelect">
@@ -376,13 +362,13 @@
                             <option value="2025" selected>2025</option>
                             <option value="2026">2026</option>
                         </select>
-                        <button onclick="refreshMonthlyEvolution()">Update</button>
+                        <button onclick="refreshMonthlyEvolution()">Actualiser</button>
                     </div>
                 </div>
                 <div class="chart-card">
-                    <h3><i class="fas fa-chart-scatter" style="color:#ef4444;"></i> Quantity vs Revenue Correlation</h3>
+                    <h3><i class="fas fa-chart-scatter" style="color:#ef4444;"></i> Corrélation Quantité vs CA</h3>
                     <canvas id="scatterChart"></canvas>
-                    <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Each point represents a transaction</p>
+                    <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Chaque point représente une transaction</p>
                 </div>
             </div>
         </div>
@@ -391,11 +377,11 @@
         <div class="charts-section">
             <div class="charts-grid">
                 <div class="chart-card">
-                    <h3><i class="fas fa-layer-group" style="color:#ec489a;"></i> Performance by Employee & Category</h3>
+                    <h3><i class="fas fa-layer-group" style="color:#ec489a;"></i> Performance par Vendeur et Catégorie</h3>
                     <canvas id="employeeCategoryChart"></canvas>
                 </div>
                 <div class="chart-card">
-                    <h3><i class="fas fa-table-cells" style="color:#14b8a6;"></i> Sales Heatmap - <span id="heatmapYear">{{ $current_year }}</span></h3>
+                    <h3><i class="fas fa-table-cells" style="color:#14b8a6;"></i> Heatmap des Ventes - <span id="heatmapYear">{{ $current_year }}</span></h3>
                     <div class="heatmap-wrapper">
                         <canvas id="heatmapChart"></canvas>
                     </div>
@@ -405,7 +391,7 @@
                             <option value="2025" selected>2025</option>
                             <option value="2026">2026</option>
                         </select>
-                        <button onclick="refreshHeatmap()">Update</button>
+                        <button onclick="refreshHeatmap()">Actualiser</button>
                     </div>
                 </div>
             </div>
@@ -414,32 +400,32 @@
         <!-- Filter Bar -->
         <div class="filter-bar">
             <div class="filter-group">
-                <span class="filter-label"><i class="fas fa-chart-simple"></i> Report Type:</span>
+                <span class="filter-label"><i class="fas fa-chart-simple"></i> Type de rapport :</span>
                 <select id="reportType">
-                    <option value="year">Revenue by Year</option>
-                    <option value="quarter">Revenue by Quarter</option>
-                    <option value="month">Revenue by Month</option>
-                    <option value="products">Top Products</option>
-                    <option value="category">Revenue by Category</option>
-                    <option value="employee">Revenue by Employee</option>
+                    <option value="year">CA par Année</option>
+                    <option value="quarter">CA par Trimestre</option>
+                    <option value="month">CA par Mois</option>
+                    <option value="products">Top Produits</option>
+                    <option value="category">CA par Catégorie</option>
+                    <option value="employee">CA par Vendeur</option>
                 </select>
             </div>
             <div class="filter-group" id="yearFilterGroup" style="display: none;">
-                <span class="filter-label"><i class="fas fa-calendar"></i> Year:</span>
+                <span class="filter-label"><i class="fas fa-calendar"></i> Année :</span>
                 <select id="yearSelect">
                     <option value="2024">2024</option>
                     <option value="2025" selected>2025</option>
                     <option value="2026">2026</option>
                 </select>
             </div>
-            <button onclick="refreshReport()"><i class="fas fa-rotate-right"></i> Refresh</button>
+            <button onclick="refreshReport()"><i class="fas fa-rotate-right"></i> Actualiser</button>
         </div>
         
         <!-- Data Table -->
         <div class="data-table-section">
-            <h3><i class="fas fa-table"></i> Detailed Report Data</h3>
+            <h3><i class="fas fa-table"></i> Données détaillées</h3>
             <div id="reportTable">
-                <div class="loading"><i class="fas fa-spinner fa-pulse"></i><br>Loading data...</div>
+                <div class="loading"><i class="fas fa-spinner fa-pulse"></i><br>Chargement...</div>
             </div>
         </div>
     </div>
@@ -453,10 +439,14 @@
         const scatterData = @json($scatter_data);
         const employeeCategoryData = @json($employee_category_data);
         
-        // Chart color palettes - professional
-        const bluePalette = ['#3b82f6', '#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'];
-        const orangePalette = ['#f59e0b', '#d97706', '#b45309', '#92400e', '#78350f'];
-        const greenPalette = ['#10b981', '#059669', '#047857', '#065f46', '#064e3b'];
+        // Couleurs professionnelles
+        const colors = {
+            blue: '#3b82f6',
+            orange: '#f59e0b',
+            green: '#10b981',
+            purple: '#8b5cf6',
+            teal: '#14b8a6'
+        };
         
         // Year Chart
         new Chart(document.getElementById('yearChart'), {
@@ -464,9 +454,9 @@
             data: {
                 labels: yearData.data.map(r => r.Year),
                 datasets: [{
-                    label: 'Revenue (€)',
+                    label: 'CA (€)',
                     data: yearData.data.map(r => r['Line Total']),
-                    backgroundColor: '#3b82f6',
+                    backgroundColor: colors.blue,
                     borderRadius: 6
                 }]
             },
@@ -479,9 +469,9 @@
             data: {
                 labels: topProducts.data.map(r => r['Product Name']),
                 datasets: [{
-                    label: 'Revenue (€)',
+                    label: 'CA (€)',
                     data: topProducts.data.map(r => r['Line Total']),
-                    backgroundColor: '#f59e0b',
+                    backgroundColor: colors.orange,
                     borderRadius: 6
                 }]
             }
@@ -492,7 +482,7 @@
             type: 'pie',
             data: {
                 labels: categoryData.data.map(r => r['Category Name']),
-                datasets: [{ data: categoryData.data.map(r => r['Line Total']), backgroundColor: bluePalette }]
+                datasets: [{ data: categoryData.data.map(r => r['Line Total']), backgroundColor: [colors.blue, colors.orange, colors.green, colors.purple] }]
             }
         });
         
@@ -502,9 +492,9 @@
             data: {
                 labels: employeeData.data.map(r => r['Full Name']),
                 datasets: [{
-                    label: 'Revenue (€)',
+                    label: 'CA (€)',
                     data: employeeData.data.map(r => r['Line Total']),
-                    backgroundColor: '#10b981',
+                    backgroundColor: colors.green,
                     borderRadius: 6
                 }]
             }
@@ -517,14 +507,14 @@
                 datasets: [{
                     label: 'Transactions',
                     data: scatterData.map(d => ({x: d.quantity, y: d.revenue})),
-                    backgroundColor: '#3b82f6',
+                    backgroundColor: colors.blue,
                     pointRadius: 5
                 }]
             },
             options: {
                 scales: {
-                    x: { title: { display: true, text: 'Quantity' } },
-                    y: { title: { display: true, text: 'Revenue (€)' } }
+                    x: { title: { display: true, text: 'Quantité' } },
+                    y: { title: { display: true, text: 'CA (€)' } }
                 }
             }
         });
@@ -532,7 +522,7 @@
         // Employee x Category Stacked Bar
         const employees = [...new Set(employeeCategoryData.map(d => d.employee))];
         const categories = [...new Set(employeeCategoryData.map(d => d.category))];
-        const catColors = { 'Electronics': '#3b82f6', 'Accessories': '#f59e0b', 'Software': '#10b981', 'Services': '#8b5cf6' };
+        const catColors = { 'Electronics': colors.blue, 'Accessories': colors.orange, 'Software': colors.green, 'Services': colors.purple };
         
         new Chart(document.getElementById('employeeCategoryChart'), {
             type: 'bar',
@@ -560,10 +550,10 @@
                         data: {
                             labels: data.data.map(d => d.month),
                             datasets: [{
-                                label: 'Revenue (€)',
+                                label: 'CA (€)',
                                 data: data.data.map(d => d.value),
-                                borderColor: '#06b6d4',
-                                backgroundColor: 'rgba(6,182,212,0.1)',
+                                borderColor: colors.teal,
+                                backgroundColor: 'rgba(20,184,166,0.1)',
                                 fill: true,
                                 tension: 0.3
                             }]
@@ -597,10 +587,10 @@
                         },
                         options: {
                             scales: {
-                                x: { type: 'category', labels: data.months, title: { display: true, text: 'Month' } },
-                                y: { type: 'category', labels: data.categories, title: { display: true, text: 'Category' } }
+                                x: { type: 'category', labels: data.months, title: { display: true, text: 'Mois' } },
+                                y: { type: 'category', labels: data.categories, title: { display: true, text: 'Catégorie' } }
                             },
-                            plugins: { tooltip: { callbacks: { label: ctx => `Revenue: ${ctx.raw.v.toLocaleString('fr-FR')} €` } } }
+                            plugins: { tooltip: { callbacks: { label: ctx => `CA: ${ctx.raw.v.toLocaleString('fr-FR')} €` } } }
                         }
                     });
                 });
@@ -617,11 +607,11 @@
                 document.getElementById('yearFilterGroup').style.display = 'none';
             }
             
-            document.getElementById('reportTable').innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i><br>Loading...</div>';
+            document.getElementById('reportTable').innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i><br>Chargement...</div>';
             
             fetch(url).then(res => res.json()).then(data => {
                 if (!data.data || data.data.length === 0) {
-                    document.getElementById('reportTable').innerHTML = '<div class="loading">No data available</div>';
+                    document.getElementById('reportTable').innerHTML = '<div class="loading">Aucune donnée disponible</div>';
                     return;
                 }
                 let html = '<div class="table-container"><table><thead><tr>';
